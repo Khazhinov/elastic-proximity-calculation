@@ -25,6 +25,7 @@ var (
 	proximityIndexPrefix string
 	pageSize             int
 	uploadChunkSize      int
+	logDirectory         string
 
 	config calculator.Config
 )
@@ -51,6 +52,9 @@ func initWithFlags() {
 	proximityIndexPrefixEnv := helpers.Env("TARGET_INDEX_PREFIX")
 	flag.StringVar(&proximityIndexPrefix, "TARGET_INDEX_PREFIX", proximityIndexPrefixEnv, "Префикс для таргетного индекса.")
 
+	logDirectoryEnv := helpers.Env("LOG_DIRECTORY", "")
+	flag.StringVar(&logDirectory, "LOG_DIRECTORY", logDirectoryEnv, "Папка для хранения логов. По умолчанию папка исполнения.")
+
 	proximityAmbitEnv, _ := strconv.Atoi(helpers.Env("PROXIMITY_AMBIT", "15"))
 	flag.IntVar(&proximityAmbit, "PROXIMITY_AMBIT", proximityAmbitEnv, "Размерность окрестности.")
 
@@ -66,6 +70,8 @@ func initWithFlags() {
 	flag.BoolVar(&LoggerEnable, "ELASTIC_DEBUG_REQUESTS", false, "Параметр для активации логгера для каждого отдельного запроса в Elasticsearch.")
 
 	flag.Parse()
+
+	logger.InitLogger(logDirectory)
 
 	if Username != "" && Password == "" {
 		logger.Error("Указан пользователь, но не указан пароль. Используйте -ELASTIC_PASSWORD=...")

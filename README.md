@@ -32,6 +32,8 @@ $ ./bin/proximity -h
         HTTP-схема для подключения к Elasticsearch. (default "http")
   -ELASTIC_USERNAME string
         Пользователь для подключения к Elasticsearch.
+  -LOG_DIRECTORY string
+        Папка для хранения логов. По умолчанию папка исполнения.
   -PROXIMITY_AMBIT int
         Размерность окрестности. (default 15)
   -SCROLL_KEEP_ALIVE int
@@ -44,5 +46,4 @@ $ ./bin/proximity -h
         Префикс для таргетного индекса.
   -UPLOAD_CHUNK_SIZE int
         Размерность буффера для хранения готовых для отправки окрестностей. Данный параметр влияет на потребление ОЗУ! (default 1000000)
-
 ```

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"os"
+	"path"
 	"strings"
 	"time"
 )
@@ -15,7 +16,7 @@ var Hash = helpers.RandomString(10)
 
 func Info(args ...string) {
 	if !isInit {
-		InitLogger()
+		InitLogger(helpers.Env("LOG_DIRECTORY", ""))
 	}
 
 	if len(args) > 1 {
@@ -29,7 +30,7 @@ func Info(args ...string) {
 
 func Warning(args ...string) {
 	if !isInit {
-		InitLogger()
+		InitLogger(helpers.Env("LOG_DIRECTORY", ""))
 	}
 
 	if len(args) > 1 {
@@ -43,7 +44,7 @@ func Warning(args ...string) {
 
 func Error(args ...string) {
 	if !isInit {
-		InitLogger()
+		InitLogger(helpers.Env("LOG_DIRECTORY", ""))
 	}
 
 	if len(args) > 1 {
@@ -57,11 +58,14 @@ func Error(args ...string) {
 	}
 }
 
-func InitLogger() {
+func InitLogger(loggerDirectory string) {
 	logger = logrus.New()
 
 	var logFileName strings.Builder
-	logFileName.WriteString("result")
+
+	logFileName.WriteString(path.Clean(loggerDirectory))
+	logFileName.WriteString(string(os.PathSeparator))
+	logFileName.WriteString("elastic-proximity-calculation")
 	logFileName.WriteString(time.Now().Format("-2006-01-02"))
 	logFileName.WriteString(".log")
 
