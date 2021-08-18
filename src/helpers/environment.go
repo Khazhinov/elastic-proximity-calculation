@@ -11,7 +11,11 @@ func Env(name string, defaultVal ...string) string {
 	err := godotenv.Load(".env")
 
 	if err != nil {
-		return ""
+		if len(defaultVal) > 0 {
+			return defaultVal[0]
+		} else {
+			return ""
+		}
 	}
 
 	tmp := os.Getenv(name)

@@ -21,27 +21,28 @@ $ go build -o ./bin/proximity
 ```bash
 $ ./bin/proximity -h
   -ELASTIC_ADDRESS string
-        Адрес для подключения к Elasticsearch.
+        Адрес для подключения к Elasticsearch. (default "127.0.0.1")
   -ELASTIC_DEBUG_REQUESTS
         Параметр для активации логгера для каждого отдельного запроса в Elasticsearch.
   -ELASTIC_PASSWORD string
         Пароль для подключения к Elasticsearch.
   -ELASTIC_PORT string
-        Порт для подключения к Elasticsearch.
+        Порт для подключения к Elasticsearch. (default "9200")
   -ELASTIC_SCHEME string
-        HTTP-схема для подключения к Elasticsearch.
+        HTTP-схема для подключения к Elasticsearch. (default "http")
   -ELASTIC_USERNAME string
         Пользователь для подключения к Elasticsearch.
   -PROXIMITY_AMBIT int
-        Размерность окрестности.
+        Размерность окрестности. (default 15)
   -SCROLL_KEEP_ALIVE int
-        Срок жизни токена для Scroll API в минутах.
+        Срок жизни токена для Scroll API в минутах. (default 5)
   -SINGLE_PAGE_SIZE int
-        Размер одной страницы для Scroll API. Данный параметр влияет на потребление CPU!
+        Размер одной страницы для Scroll API. Данный параметр влияет на потребление CPU! (default 1000)
   -SOURCE_INDEX string
         Индекс источник.
   -TARGET_INDEX_PREFIX string
         Префикс для таргетного индекса.
   -UPLOAD_CHUNK_SIZE int
-        Размерность буффера для хранения готовых для отправки окрестностей. Данный параметр влияет на потребление ОЗУ!
+        Размерность буффера для хранения готовых для отправки окрестностей. Данный параметр влияет на потребление ОЗУ! (default 1000000)
+
 ```
