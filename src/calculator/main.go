@@ -44,12 +44,20 @@ func Do(initConfig Config) {
 
 	keepAliveNew := time.Duration(config.KeepAlive) * time.Minute
 
-	res, _ := client.Search(
+	res, err := client.Search(
 		client.Search.WithIndex(config.SourceIndex),
 		client.Search.WithSort("common.publication_date"),
 		client.Search.WithSize(config.PageSize),
 		client.Search.WithScroll(keepAliveNew),
 	)
+
+	if err != nil {
+		logger.Error("Ошибка в ответе от Elasticsearch: " + err.Error())
+	}
+
+	if res.IsError() {
+		logger.Error("Ошибка в ответе от Elasticsearch: " + res.String())
+	}
 
 	j := helpers.ReaderToString(res.Body)
 	res.Body.Close()
@@ -66,10 +74,10 @@ func Do(initConfig Config) {
 		res, err := client.Scroll(client.Scroll.WithScrollID(scrollID), client.Scroll.WithScroll(keepAliveNew))
 
 		if err != nil {
-			logger.Error(err.Error())
+			logger.Error("Ошибка в ответе от Elasticsearch: " + err.Error())
 		}
 		if res.IsError() {
-			logger.Error("Ошибка в ответе: %s", res.String())
+			logger.Error("Ошибка в ответе от Elasticsearch: " + res.String())
 		}
 
 		j := helpers.ReaderToString(res.Body)
